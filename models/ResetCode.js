@@ -20,6 +20,10 @@ const ResetCodeSchema = new mongoose.Schema({
   expDate: {
     type: String,
     required: true
+  },
+  identificationToken: {
+    type: String,
+    required: true
   }
 })
 

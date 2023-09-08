@@ -19,7 +19,7 @@ mongoose.connect(dbURI, {
   maxPoolSize: 10,
   connectTimeoutMS: 2500,
   useNewUrlParser: true,
-  dbName: 'CarresioAuthDB'
+  dbName: 'DREMAuthDB'
 }, (err, connected) => {
   if (err) throw err
   if (connected) console.log('Database connected...')

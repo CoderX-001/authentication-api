@@ -1,0 +1,3 @@
+/** 
+ * Create a function to verify the accessKey sent in the request and place it as a middleware in the important routes
+*/

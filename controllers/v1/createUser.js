@@ -13,7 +13,7 @@
   * create jwt for the user
   * 
   * @createdAt 14/02/2023 10:46pm
-  * @lastModifiedAt 16/02/2023 08:08pm
+  * @lastModifiedAt 20/02/2023 10:18pm
   * 
   */
  
@@ -26,10 +26,10 @@ import User from '../../models/User.js'
 
 // Create-User function
 const createUser = async (req, res) => {
-  const { name, email, username, DOB, password } = req.body
+  const { name, email, username, DOB, password, identificationToken } = req.body
   let errors = []
 
-  if (!name || !email || !username || !DOB || !password) { // CHECK FOR EMPTY FIELDS
+  if (!name || !email || !password) { // CHECK FOR EMPTY FIELDS
     errors.push({ error: 'Empty field(s) available' })
   }
 
@@ -106,12 +106,16 @@ const createUser = async (req, res) => {
     }
   }
 
-  if (username.length < 8) { // CHECK USERNAME LENGTH, VALID IF >= 8 CHARACTERS LONG
-    errors.push({ error: 'Username too short' })
+  if (username) {
+    if (username.length < 8) { // CHECK USERNAME LENGTH, VALID IF >= 8 CHARACTERS LONG
+      errors.push({ error: 'Username too short' })
+    }
   }
 
-  if (password.length < 8) { // CHECK PASSWORD LENGTH, VALID IF >= 8 CHARACTERS LONG
-    errors.push({ error: 'Password too short' })
+  if (password) {
+    if (password.length < 8) { // CHECK PASSWORD LENGTH, VALID IF >= 8 CHARACTERS LONG
+      errors.push({ error: 'Password too short' })
+    }
   }
 
   // CHECK IF THERE WERE ANY ERRORS DURING ERROR-CHECK
@@ -150,7 +154,8 @@ const createUser = async (req, res) => {
       age,
       password: hash,
       accessToken: '',
-      refreshToken: ''
+      refreshToken: '',
+      identificationToken
     })
 
     // CALL THE FUNCTION TO GENERATE JWT USING THE USER'S ID AS THE PAYLOAD
@@ -172,21 +177,14 @@ const createUser = async (req, res) => {
     if (!user) return res.status(500).json({ error: 'Something went wrong' })
 
     const userInfo = {
-      name: user.name,
-      email: user.email,
-      username: user.username,
-      age: user.age,
-      DOB: user.DOB,
-      phone: user.phone,
-      createdAt: user.createdAt,
-      lastActive: user.lastActive,
-      active: user.active
+      id: newUser._id
     }
 
     return res.status(201).json({ accessToken, refreshToken, user:userInfo })
 
   }
   catch(err) {
+    res.json(err.message)
     throw new Error(err.message)
   }
 }

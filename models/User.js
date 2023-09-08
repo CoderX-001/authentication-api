@@ -10,15 +10,15 @@ const UserSchema = new mongoose.Schema({
   },
   username: {
     type: String,
-    required: true
+    required: false
   },
   age: {
     type: Number,
-    required: true
+    required: false
   },
   DOB: {
     type: String,
-    required: true
+    required: false
   },
   phone: {
     type: String,
@@ -47,6 +47,10 @@ const UserSchema = new mongoose.Schema({
   active: {
     type: Boolean,
     default: true
+  },
+  identificationToken: {
+    type: String,
+    required: true
   }
 })
 
